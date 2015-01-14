@@ -45,13 +45,15 @@ CR ." Ex 10: "
 : convertint { a } \ convert int to double
 	a 0 ;
 
-: TEST_10 { a } \ Test convertint using a as the int
-	CR ."     TEST: convertint( " a print ." ): "
+: TEST_CONVERTINT { a } \ Test convertint using a as the int
+	CR ."     TEST: convertint(" a print ." ): "
 	a convertint 
 	0<> swap dup <> and if ." Failure: expected" a print ." .0 got " d. else ." Success" endif ;
 
-10 TEST_10
-4 TEST_10
+10 TEST_CONVERTINT
+4 TEST_CONVERTINT
+183 TEST_CONVERTINT
+
 
 ( Exercise 11 )
 CR ." Ex 11: "
