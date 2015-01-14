@@ -59,9 +59,9 @@ CR ." Ex 11: "
 	a 0<= if 1 else a a 1 - recurse * endif ;
 
 : TEST_FACT { a b } ( a = input, b = excepted output )
-	CR ."     TEST: fact( " a print ." ): "
+	CR ."     TEST: fact(" a print ." ): "
 	a fact
-	b = if ." Failure: expected " b . ." got " a fact . else ." Success" endif ;
+	b <> if ." Failure: expected " b . ." got " a fact . else ." Success" endif ;
 
 1 1 TEST_FACT
 2 2 TEST_FACT
@@ -75,9 +75,9 @@ CR ." Ex 12: "
 	a 0= if 0 else a 1 = if 1 else a 1 - recurse a 2 - recurse + endif endif ;
 
 : TEST_FIB { a b } ( a = input, b = excepted output )
-	CR ."     TEST: fact( " a print ." ): "
+	CR ."     TEST: fact(" a print ." ): "
 	a fib
-	b = if ." Failure: expected " b . ." got " a fib . else ." Success" endif ;
+	b <> if ." Failure: expected " b . ." got " a fib . else ." Success" endif ;
 
 0 0 TEST_FIB
 1 1 TEST_FIB
@@ -91,7 +91,7 @@ CR ." Ex 12: "
 9 34 TEST_FIB
 10 55 TEST_FIB
 
-bye
+CR bye
 
 
 	
