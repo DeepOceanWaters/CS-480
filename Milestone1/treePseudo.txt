@@ -1,0 +1,13 @@
+Node:
+    Node[] children
+    String value
+
+ToPostOrder(startNode):
+    outList = new List
+    ToPostOrder(startNode, outList)
+    return outList
+
+ToPostOrder(parent, outList):
+    for childNode in parent.children:
+        ToPostOrder(childNode, outList)
+    outList.append(parent.value)
