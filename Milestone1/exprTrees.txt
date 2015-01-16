@@ -1,0 +1,118 @@
+Ex1:
+        printf
+          |
+    "Hello World\n"
+
+Ex2:
+    +
+   / \
+ 10   -
+     / \
+    7   *
+       / \
+      3   /
+         / \
+        5  12
+
+Ex3:
+    +
+   / \
+10.0  -
+     / \
+   7.0  *
+       / \
+     3.0  /
+         / \
+       5.0 12.0
+
+Ex4:
+    +
+   / \
+10e0  -
+     / \
+   7e0  *
+       / \
+     3e0  /
+         / \
+       5e0 12e0
+
+Ex5:
+    +
+   / \
+ 10   -
+     / \
+   7e0  *
+       / \
+     3e0  /
+         / \
+        5  12
+
+Ex6:
+    =
+   / \
+  y  10
+
+    =
+   / \
+  x  7e0
+
+    +
+   / \
+  y   -
+     / \
+    x   *
+       / \
+     3e0  /
+         / \
+        5  12
+
+Ex7:
+         if
+   /     |     \
+  <     then   else
+ / \     |      |
+5   3    7      2
+
+Ex8:
+         if
+   /     |     \
+  >     then   else
+ / \     |      |
+5   3    7      2
+
+Ex9:
+             for
+    /      |     |     \
+   =      <=    ++     printf
+  / \     / \    |      /  \
+ i   0   i   5   i    "%d"  i
+
+Ex10:
+               function
+    /        |          |        \
+  type      name       args      body
+   |         |          |         |
+double  convertint      x       return
+                                  |
+                                 cast
+                                /    \
+                             double   x
+
+Ex11:
+               function
+    /        |          |        \
+  type      name       args      body
+   |         |          |           \
+  int       fact        i            if
+                               /      |      \
+                             <=      then    else
+                             / \      |       |
+                            i   0   return  return
+                                      |       |
+                                      1       *
+                                             / \
+                                            i  fact
+                                                |
+                                                -
+                                               / \
+                                              i   1
