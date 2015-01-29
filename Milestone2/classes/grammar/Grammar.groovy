@@ -12,9 +12,10 @@ class Grammar {
      * Map<String, Terminal> terminals
      * Map<String, NonTerminal> nonTerminals
      */
-    Grammar(terminals, nonTerminals) {
+    Grammar(terminals, nonTerminals, startExpr) {
         this.terminals = terminals
         this.nonTerminals = nonTerminals
+        this.nonTerminals['START'] = startExpr
 
         if (!this.terminals['$']) this.terminals['$'] = new Terminal('$') // Add eof token if not present
 
@@ -37,9 +38,8 @@ class Grammar {
         def startExpr = nonTerminals["START"]
         if (!startExpr) throw new Exception("Start Expression not defined.")
 
-        nonTerminals.each { if (it.key != "START") startExpr.rules.add([ it.value ]) }
-        println startExpr.rules.tag
-        getFirsts(startExpr, [])
+        def exprsSeen = []
+        nonTerminals.each { getFirsts(it.value, exprsSeen) }
     }
 
     /**
@@ -48,12 +48,42 @@ class Grammar {
      * return ArrayList<Expression>
      */
     def getFirsts(expr, exprsSeen) {
-        if (expr.isTerminal()) return [ expr ]
+        if (expr.isTerminal()) return [expr]
         if (exprsSeen.contains(expr)) return expr.firsts
 
-        println expr.tag
-        exprsSeen.add(expr)
+        exprsSeen << expr
         return expr.firsts = expr.rules.collect { getFirsts(it[0], exprsSeen) }.flatten() as Set
+    }
+
+    /**
+     * return void
+     * Finds the follows set for each Non-Terminal in the grammar
+     * and updates the Non-Terminal's follow set to match.
+     */
+    def getFollows() {
+        def startExpr = nonTerminals["START"]
+        startExpr.follows << terminals['$']
+
+        nonTerminals.each { getFollows(it.value) }
+        nonTerminals.each { completeFollows(it.value) }
+    }
+
+    /**
+     * NonTerminal expr
+     * return Set<Terminal>
+     * This function is called after the initial getFollows() function
+     * is called. It removes all Non-Terminals in expr.follows, calls
+     * this function for the Non-Terminals removed, and adds the returned
+     * set of follows to the expr.follows
+     */
+    def completeFollows(expr) {
+        def nonTermFollows = expr.follows.findAll { !it.isTerminal() }
+        nonTermFollows.each { 
+            expr.follows -= it
+            expr.follows << completeFollows(it)
+        }
+        expr.follows = expr.follows.flatten()
+        return expr.follows
     }
 
     /** 
@@ -61,11 +91,18 @@ class Grammar {
      * return void
      * Call getFirsts() before calling this, otherwise follows will not be set correctly
      */
-    def getFollows(exprList) { exprList.eachWithPeek { cur, next -> if (cur.isTerminal()) cur.follows += toFollows(next) } }
+    def getFollows(expr) { 
+        expr.rules.each { it.eachWithPeek { cur, next -> if (!cur.isTerminal()) cur.follows << toFollows(expr, next) } }
+    }
 
     /**
      * return Set<Expression>
+     * NonTerminal rhsExpr = right hand side expression
      * Expression expr 
      */
-    def toFollows(expr) { if (!expr) [ terminals['$'] ] else if (expr.isTerminal()) [ expr ] else expr.firsts }
+    def toFollows(rhsExpr, expr) { 
+        if (!expr) return rhsExpr 
+        else if (expr.isTerminal()) return expr 
+        else return expr.firsts 
+    }
 }
