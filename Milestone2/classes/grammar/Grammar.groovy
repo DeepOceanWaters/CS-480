@@ -7,6 +7,7 @@ import classes.grammar.NonTerminal
 class Grammar {
     def terminals = ['$': new Terminal('$')]    // Map<String, Terminal>
     def nonTerminals = [:] // Map<String, NonTerminal>
+    def ready = false // boolean
 
     /**
      * Map<String, Terminal> terminals
@@ -27,6 +28,41 @@ class Grammar {
             }
             if (current) closure(current, null)
         }
+    }
+
+    def init() {
+        setUpGrammar()
+        getFirsts()
+        getFollows()
+        ready = true
+    }
+
+    def getStartExpr() { return nonTerminals['START'] }
+
+    def setUpGrammar() {
+        def newNonTerminals = [:]
+        nonTerminals.each {
+            def count = 0
+            def expr = it.value
+            def newRules = []
+            it.value.rules.each { 
+                def newRule = []
+                it.each { 
+                    if (it.tag == expr.tag) { 
+                        def newNonTerm = new NonTerminal(it.tag + count++)
+                        newNonTerminals[newNonTerm.tag] = newNonTerm
+                        newRule << newNonTerm
+                    }
+                    else {
+                        newRule << it 
+                    } 
+                }
+                newRules << newRule
+            }
+            expr.rules = newRules
+            count.times { newNonTerminals[expr.tag + it].rules = newRules }
+        }
+        newNonTerminals.each { nonTerminals[it.key] = it.value }
     }
 
     /**

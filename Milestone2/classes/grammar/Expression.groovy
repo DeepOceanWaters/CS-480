@@ -1,7 +1,12 @@
 package classes.grammar
 
 abstract class Expression {
-    String tag
+    def tag
+    def baseState
 
     abstract boolean isTerminal()
+
+    def printExpr(tabs) {
+        println "$tabs$tag"
+    }
 }
