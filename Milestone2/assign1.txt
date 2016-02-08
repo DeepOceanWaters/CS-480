@@ -1,17 +1,16 @@
 [Token]     [Pattern]
-Boolean     true, false
+Boolean     true|false
 Integer     x*
 Real        x*[.x+]?
-String      "[^"]*"
+String      "^"*"
 Ops         +, -, *, /, %, ^
 Comparisons and, or, not, <=, >=, =, <, >, !=
 Type        bool, int, real, string
-Keywords    sin, cos, tan, bool, int, real, string, and, or, not, stdout, if, while, let, true, false
 Id          [a-z]+[[0-9]*[a-z]*]*
-Print       stdout atom
+Print       stdout
 If          if
 While       while
-Let         let ((id type)*)
+Let         let
 Assign      := id expr
 ExprTerm    ), (
 

@@ -5,11 +5,9 @@ class Lexer {
     Set<StateMachine> stateMachines = [] as Set
     Set<StateMachine> curStateMachines = [] as Set
     Set<StateMachine> prevStateMachines = [] as Set
+    List<Token> tokens = []
     Set<String> discardables = [] as Set
     String curStr = ""
-    FileInputStream stream
-    Token curToken
-    boolean finished = false
 
     void setup() {
         // setup keywords
@@ -103,41 +101,21 @@ class Lexer {
         stateMachines << idSM
     }
 
-    void setFile(filename) {
-        reset(true)
-        stream = new FileInputStream(filename)
-    }
-
     boolean discardable(item) { discardables.contains(item) }
 
     void reset(full) {
-        if (full && stream != null) {
-            stream.close()
-            stream = null
-        }
-        finished = false
+        if (full) tokens.each { tokens -= it }
         stateMachines.each { it.reset() }
         stateMachines.each { curStateMachines << it }
         prevStateMachines.each { prevStateMachines -= it }
         curStr = ""
     }
 
-    Token getNextToken() {
-        curToken = null
-        if (finished) return new Token(TokenTag.EndOfFile, '$end')
-        byte[] curChar = new byte[1]
-        while (!curToken) {
-            if (stream.read(curChar) == -1) {
-                addToken()
-                finished = true
-                stream.close()
-                stream = null
-                break
-            }
-            tryParse((curChar[0] as char) as String)
-        }
-        if (finished && !curToken) curToken = new Token(TokenTag.EndOfFile, '$end')
-        return curToken
+    void tokenizeFile(filename) {
+        FileInputStream byteStream = new FileInputStream(filename)
+        reset(true)
+        tokenize(byteStream)
+        byteStream.close()
     }
 
     void tokenize(stream) { stream.eachByte { tryParse((it as char) as String) } }
@@ -158,7 +136,7 @@ class Lexer {
     void addToken() {
         if (curStr) {
             Token symbolToken = symbolsTable[curStr]
-            if (symbolToken) curToken = symbolToken
+            if (symbolToken) tokens << symbolToken
             else createNewToken()
             reset()
 
@@ -169,7 +147,7 @@ class Lexer {
         Set<StateMachine> tmpStateMachines = curStateMachines ? curStateMachines : prevStateMachines
         Set<StateMachine> accStateMachines = tmpStateMachines.findAll { it.accepting() }
         if (accStateMachines.size() > 1) throw new Exception("Ambiguous string for $acceptingStateMachines.tokenTag: $curStr")
-        else if (accStateMachines.size() == 1) curToken = accStateMachines[0].createNewToken(curStr)
+        else if (accStateMachines.size() == 1) tokens << accStateMachines[0].createNewToken(curStr)
     }
 }
 
@@ -225,8 +203,7 @@ enum TokenTag {
     Type,
     Keyword,
     Lparen,
-    Rparen,
-    EndOfFile
+    Rparen
 }
 
 class Token {

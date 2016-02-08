@@ -1,0 +1,2 @@
+(let (x int)(y int)(z int)(a string)(b real))
+(:= x 12)(:= y 13)(z := (+ x y))(a := true)(a := "something")(b 15.45)

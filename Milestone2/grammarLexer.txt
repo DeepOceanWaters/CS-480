@@ -1,0 +1,24 @@
+: START -> S
+: S -> RParen | LParen | assign | binop | unop | type | strings | name | ints | floats | if | while | stdout | let
+1: if -> 'i' 'f'
+1: while -> 'w' 'h' 'i' 'l' 'e'
+1: stdout -> 's' 't' 'd' 'o' 'u' 't'
+1: let -> 'l' 'e' 't'
+: LParen -> '(' 
+: RParen -> ')'
+: assign -> ':' '='
+1: binop -> '+' | '-' | '*' | '/' | '%' | '^' | '=' | '>' | '>' '=' | '<' | '<' '=' | '!' '=' | 'o' 'r' | 'a' 'n' 'd' | '-' | 'n' 'o' 't' | 's' 'i' 'n' | 'c' 'o' 's' | 't' 'a' 'n'
+1: type -> 'b' 'o' 'o' 'l' | 'i' 'n' 't' | 'r' 'e' 'a' 'l' | 's' 't' 'r' 'i' 'n' 'g'
+1: strings -> '"' anyCharMul '"' | 't' 'r' 'u' 'e' | 'f' 'a' 'l' 's' 'e'
+: name -> '_' id | id
+: id -> alphaChar id | alphaChar | digit id | digit | '_' id | '_'
+: ints -> num
+: floats -> num '.' num | num '.' num 'e' num
+: num -> digit num | digit
+: digit -> '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+: anyCharMul -> anyCharMul anyChar | anyChar
+: anyChar -> specialChar | alphaChar | digit
+: alphaChar -> 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z'  
+: specialChar -> ' ' | '' | '' | '' | '' | '' | '' | '' | '' | '   ' | '
+' | '' | '' | '
+' | '' | '' | '' | '' | '' | '' | '' | '' | '' | '' | '' | '' | '' | '' | '' | '' | '' | '' | ' ' | '!' | '"' | '#' | '$' | '%' | '&' | ''' | '(' | ')' | '*' | '+' | ',' | '-' | '.' | '/' | ':' | ';' | '<' | '=' | '>' | '?' | '@' | '[' | '\' | ']' | '^' | '_' | '`' | '{' | '|' | '}' | '~' | '?'

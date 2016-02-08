@@ -1,20 +1,27 @@
 package cs480
 
-@Grab(group='org.spockframework', module='spock-core', version='0.7-groovy-2.0')
 
-import spock.lang.*
-import cs480.Lexer
 
-class LexerTest extends Specification {
+
     void testTokenize() {
         when:
         Lexer testLexer = new Lexer()
         testLexer.setup()
 
+        
+        def curToken
+        testLexer.setFile("cs480/test1.txt")
+        println ""
+        while((curToken = testLexer.getNextToken()).value != '$end') { 
+            print curToken.value
+            print " " 
+        }
+        curToken = null
+        println ""
+        testLexer.setFile("cs480/test2.txt")
+        while((curToken = testLexer.getNextToken()).value != '$end') { print "$curToken.value " }
         then:
-        testLexer.tokenizeFile("cs480/test1.txt")
-        println testLexer.tokens.value
-        testLexer.tokenizeFile("cs480/test2.txt")
-        println testLexer.tokens.value
+        assert 1 == 1
     }
-}
+
+    testTokenize()
