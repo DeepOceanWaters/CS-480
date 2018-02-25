@@ -146,7 +146,7 @@ class Lexer {
     void createNewToken() {
         Set<StateMachine> tmpStateMachines = curStateMachines ? curStateMachines : prevStateMachines
         Set<StateMachine> accStateMachines = tmpStateMachines.findAll { it.accepting() }
-        if (accStateMachines.size() > 1) throw new Exception("Ambiguous string for $acceptingStateMachines.tokenTag: $curStr")
+        if (accStateMachines.size() > 1) throw new Exception("Ambiguous string for $accStateMachines.tokenTag: $curStr")
         else if (accStateMachines.size() == 1) tokens << accStateMachines[0].createNewToken(curStr)
     }
 }

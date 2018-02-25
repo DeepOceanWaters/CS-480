@@ -52,8 +52,8 @@ class Grammar {
     }
 
     def init() {
-        setUpGrammar()
         removeLambdas()
+        setUpGrammar()
         getFirsts()
         getFollows()
         ready = true

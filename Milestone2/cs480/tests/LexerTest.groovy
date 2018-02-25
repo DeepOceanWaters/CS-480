@@ -45,7 +45,7 @@ class LexerTest extends Specification {
         E.rules << [F, G]
 
         F.rules << [D]
-        F.rules << [F, F]
+        F.rules << [D, F]
 
         G.rules << [H]
 
@@ -93,7 +93,7 @@ class LexerTest extends Specification {
         }
 
         //testLexer.tokenizeFile("cs480/tests/tokenTest1.txt").each { println it.children }
-('0'..'9').each { println it }
+        ('0'..'9').each { println it }
         testLexer.tokenizeFile("cs480/tests/tokenTest1.txt").printExpr("")
         ('0'..'9').each { println it }
 

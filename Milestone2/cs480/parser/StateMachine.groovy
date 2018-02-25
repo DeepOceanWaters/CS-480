@@ -13,7 +13,6 @@ class StateMachine {
     }
 
     def createState(expr, baseState) {
-        println "$baseState.id: $expr.tag"
         expr.baseState = baseState
         stateTable[baseState.id] = baseState
     

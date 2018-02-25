@@ -13,7 +13,7 @@ class State {
     def addAction(rhsExpr, expr, next) {
         def newAction
         if (actions[expr.tag].action) newAction = actions[expr.tag].action
-        else if (!next.isTerminal() && rhsExpr.tag == next.tag) newAction = new Shift(rhsExpr.baseState)
+        // Wrong: need to go to the next state that actually describes the current situation. //else if (!next.isTerminal() && rhsExpr.tag == next.tag) newAction = new Shift(rhsExpr.baseState)
         else if (expr.isTerminal()) newAction = new Shift()
         else newAction = new Goto()
         actions[expr.tag].action = newAction
