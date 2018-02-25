@@ -1,0 +1,12 @@
+: START -> S
+: S -> 'LParen' 'RParen' | 'LParen' S 'RParen' | S S | expr
+: expr -> oper | stmts
+: oper -> 'LParen' 'Assign' 'name' oper 'RParen' | 'LParen' 'binop' oper oper 'RParen' | 'LParen' 'unop' oper 'RParen' | constant | 'name'
+: constant -> 'strings' | 'ints' | 'floats'
+: stmts -> ifstmts | whilestmts | letstmts | printsmts
+: printstmts -> 'LParen' 'stdout' oper 'RParen'
+: ifstmts -> 'LParen' 'if' expr expr expr 'RParen' | 'LParen' 'if' expr expr 'RParen'
+: whilestmts -> 'LParen' 'while' expr exprlist 'RParen'
+: exprlist -> expr | expr exprlist
+: letstmts -> 'LParen' 'let' 'LParen' varlist 'RParen' 'RParen'
+: varlist -> 'LParen' 'name' 'type' 'RParen' | 'LParen' 'name' 'type' 'RParen' varlist

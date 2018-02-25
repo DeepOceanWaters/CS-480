@@ -7,3 +7,5 @@ true or false and stdout
 */%^
 sin cos tan sincos
 >>=> :=!===
+=======
+12.3 + 89 - 45 * 132.89

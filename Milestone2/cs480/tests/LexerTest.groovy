@@ -45,7 +45,7 @@ class LexerTest extends Specification {
         E.rules << [F, G]
 
         F.rules << [D]
-        F.rules << [D, F]
+        F.rules << [F, D]
 
         G.rules << [H]
 

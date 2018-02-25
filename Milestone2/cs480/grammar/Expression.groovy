@@ -4,6 +4,7 @@ abstract class Expression {
     def tag
     def baseState
     def isLambda = false
+    def hasNonTerminal = false
 
     abstract boolean isTerminal()
 
